@@ -14,7 +14,7 @@ const images_no = [
     "assets/images/loco.jpg"
 ];
 
-const yesResponseImage = "assets/images/yes.gif";
+const yesResponseImage = "assets/images/yes.jpeg";
 const successLink = "https://www.youtube.com/watch?v=vJLB1cq3Zmk";
 
 let noClickCount = 0;
@@ -24,6 +24,8 @@ const noButton = document.getElementById('no-button');
 const yesButton = document.getElementById('yes-button');
 const banner = document.getElementById('banner');
 const messageBox = document.getElementById('message-box');
+const yesMsg = document.getElementById('yes-message');
+yesMsg.style.display = "none";  // Initially hide the yes message
 
 function updateBanner(image) {
     banner.src = image;
@@ -52,12 +54,27 @@ function handleNoClick() {
     } else {
         forceYes();
     }
+
+    // Check if the count is less than the length and display encouragement message
+    if (noClickCount < answers_no.length) {
+        // Append the message if it's not already there
+        if (!messageBox.querySelector('h3')) {
+            const message = document.createElement('h3');
+            message.innerHTML = "Keep pressing No, you got this!";
+            messageBox.appendChild(message);
+        }
+    }
 }
 
+
+
 function forceYes() {
-    alert("You must press Yes now!lol");
+    alert("Now you can press yes");
+    yesMsg.style.display = "block";  // Show the yes message
     noButton.style.display = "none";
     yesButton.disabled = false;
+    document.getElementById('question-heading').style.display = "none"; 
+    document.getElementById('hint').style.display = "none"; // Hide the question heading
     yesButton.style.cursor = "pointer";
     messageBox.innerHTML = "<h2>You must press Yes now! lol</h2>";
 }
@@ -66,7 +83,7 @@ yesButton.addEventListener('click', () => {
     // Ensure the button is only functional once enabled
     if (yesButton.disabled) return;
 
-    updateBanner(yesResponseImage);  // Update the banner to "yes.gif"
+    updateBanner(yesResponseImage);  // Update the banner to "yes.jpeg"
     document.querySelector('.buttons').style.display = "none";  // Hide both Yes and No buttons
     document.getElementById('question-heading').style.display = "none";  // Hide the question heading
 
